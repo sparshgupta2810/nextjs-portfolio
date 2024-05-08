@@ -1,8 +1,9 @@
 "use client";
+import About from "./About";
 import React, { useTransition, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import TabButton from "./TabButton";
-
 const TAB_DATA = [
   {
     title: "Skills",
@@ -29,8 +30,8 @@ const TAB_DATA = [
     ),
   },
   {
-    title: "Certifications",
-    id: "certifications",
+    title: "Achievements",
+    id: "achievements",
     content: (
       <ul className="list-disc pl-2">
         <li>AWS Cloud Practitioner</li>
@@ -51,20 +52,36 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="text-white" id="about">
-      <div className="md:grid md:grid-cols-2 gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16">
-        <Image src="/images/about-image.png" width={500} height={500} />
+    <section className="text-white z-10" id="about">
+      <About />
+      <motion.div className="md:grid md:grid-cols-2 gap-4 items-center py-8 px-2 xl:gap-16 sm:py-16 xl:px-8">
+        <div className="mx-auto left-0 flex  py-4 items-center justify-center  relative">
+          <div className=" flex items-start absolute">
+            <video
+              loop
+              muted
+              autoPlay
+              playsInline
+              preload="false"
+              className="w-full h-auto"
+              src="/images/About2.webm"
+            />
+          </div>
+          <Image
+            className=" w-full flex z-0"
+            src="/images/About3.png"
+            width={600}
+            height={600}
+            alt="Picture of the author"
+          />
+        </div>
+
         <div className="mt-4 md:mt-0 text-left flex flex-col h-full">
           <h2 className="text-4xl font-bold text-white mb-4">About Me</h2>
           <p className="text-base lg:text-lg">
-            I am a full stack web developer with a passion for creating
-            interactive and responsive web applications. I have experience
-            working with JavaScript, React, Redux, Node.js, Express, PostgreSQL,
-            Sequelize, HTML, CSS, and Git. I am a quick learner and I am always
-            looking to expand my knowledge and skill set. I am a team player and
-            I am excited to work with others to create amazing applications.
+          As a seasoned full-stack web developer, I excel in crafting dynamic and user-centric web applications. My expertise spans a comprehensive array of technologies, including JavaScript, React, Redux, Node.js, Express, HTML, CSS, and many more.Collaboration lies at the heart of my work ethos, and I thrive in team environments where collective creativity fuels the development process. I am committed to leveraging my skills and experience to contribute meaningfully to collaborative endeavors, fostering innovation and delivering exceptional results.
           </p>
-          <div className="flex flex-row justify-start mt-8">
+          <div className="flex flex-row justify-start mt-8 z-0">
             <TabButton
               selectTab={() => handleTabChange("skills")}
               active={tab === "skills"}
@@ -80,18 +97,18 @@ const AboutSection = () => {
               Education{" "}
             </TabButton>
             <TabButton
-              selectTab={() => handleTabChange("certifications")}
-              active={tab === "certifications"}
+              selectTab={() => handleTabChange("achievements")}
+              active={tab === "achievements"}
             >
               {" "}
-              Certifications{" "}
+              Achievements{" "}
             </TabButton>
           </div>
           <div className="mt-8">
             {TAB_DATA.find((t) => t.id === tab).content}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
