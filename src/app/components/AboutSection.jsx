@@ -12,10 +12,12 @@ const TAB_DATA = [
       <ul className="list-disc pl-2">
         <li>Node.js</li>
         <li>Express</li>
-        <li>PostgreSQL</li>
-        <li>Sequelize</li>
-        <li>JavaScript</li>
+        <li>MySQL</li>
         <li>React</li>
+        <li>Next</li>
+        <li>JavaScript</li>
+        <li>Figma/Canva</li>
+        <li>Data Structure and Algorithm</li>
       </ul>
     ),
   },
@@ -24,8 +26,7 @@ const TAB_DATA = [
     id: "education",
     content: (
       <ul className="list-disc pl-2">
-        <li>Fullstack Academy of Code</li>
-        <li>University of California, Santa Cruz</li>
+        <li>Indian Institute of Technology Varanasi (IITBHU)</li>
       </ul>
     ),
   },
@@ -34,8 +35,8 @@ const TAB_DATA = [
     id: "achievements",
     content: (
       <ul className="list-disc pl-2">
-        <li>AWS Cloud Practitioner</li>
-        <li>Google Professional Cloud Developer</li>
+        <li>AIR 9991 in JEE Advanced 2022 </li>
+        <li> Pupil in Codeforces with the maximum rating 1275</li>
       </ul>
     ),
   },

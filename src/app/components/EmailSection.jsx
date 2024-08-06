@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import GithubIcon from "../../../public/github-icon.svg";
 import LinkedinIcon from "../../../public/linkedin-icon.svg";
 import Link from "next/link";
@@ -7,35 +7,45 @@ import Image from "next/image";
 
 const EmailSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const formRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = formRef.current;
     const data = {
-      email: e.target.email.value,
-      subject: e.target.subject.value,
-      message: e.target.message.value,
+      email: form.email.value,
+      subject: form.subject.value,
+      message: form.message.value,
     };
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/send";
 
     // Form the request for sending data to the server.
     const options = {
-      // The method is POST because we are sending data.
       method: "POST",
-      // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
       },
-      // Body of the request is the JSON data we created above.
       body: JSONdata,
     };
 
-    const response = await fetch(endpoint, options);
-    const resData = await response.json();
+    try {
+      const response = await fetch(endpoint, options);
+      const resData = await response.json().catch(() => {});
 
-    if (response.status === 200) {
-      console.log("Message sent.");
-      setEmailSubmitted(true);
+      if (response.ok) {
+        console.log("Message sent.");
+        setEmailSubmitted(true);
+        form.reset(); // Reset the form fields
+        setErrorMessage(""); // Clear any previous error messages
+      } else {
+        const error = resData?.error || "Failed to send email.";
+        throw new Error(error);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setErrorMessage("Failed to send email. Please try again later.");
     }
   };
 
@@ -56,10 +66,10 @@ const EmailSection = () => {
           try my best to get back to you!
         </p>
         <div className="socials flex flex-row gap-2">
-          <Link href="github.com">
+          <Link href="https://github.com/sparshgupta2810">
             <Image src={GithubIcon} alt="Github Icon" />
           </Link>
-          <Link href="linkedin.com">
+          <Link href="https://www.linkedin.com/in/sparsh-gupta-172a79255?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app ">
             <Image src={LinkedinIcon} alt="Linkedin Icon" />
           </Link>
         </div>
@@ -70,7 +80,7 @@ const EmailSection = () => {
             Email sent successfully!
           </p>
         ) : (
-          <form className="flex flex-col" onSubmit={handleSubmit}>
+          <form className="z-auto flex flex-col" onSubmit={handleSubmit} ref={formRef}>
             <div className="mb-6">
               <label
                 htmlFor="email"
@@ -119,10 +129,13 @@ const EmailSection = () => {
             </div>
             <button
               type="submit"
-              className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
+              className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full "
             >
               Send Message
             </button>
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+            )}
           </form>
         )}
       </div>
@@ -131,3 +144,6 @@ const EmailSection = () => {
 };
 
 export default EmailSection;
+
+
+
